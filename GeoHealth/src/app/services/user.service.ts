@@ -1,0 +1,38 @@
+import { Injectable } from '@angular/core';
+import { Auth, createUserWithEmailAndPassword, signInWithPopup, signOut, GoogleAuthProvider,  getAuth, onAuthStateChanged} from '@angular/fire/auth';
+import { signInWithEmailAndPassword } from '@firebase/auth';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+
+  constructor(private auth:Auth) { }
+
+  register({email, password}: any){
+    return createUserWithEmailAndPassword(this.auth,email,password)
+  }
+
+  login({email, password}:any){
+    return signInWithEmailAndPassword(this.auth,email,password)
+  }
+
+
+  logout(){
+    return signOut(this.auth)
+  }
+
+
+  // userLog(){
+  // const user =this.auth.currentUser;
+
+  // return user
+  // }
+
+
+  loginWithGoogle(){
+    return signInWithPopup(this.auth, new GoogleAuthProvider())
+  }
+
+  
+}

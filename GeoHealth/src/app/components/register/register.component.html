@@ -1,0 +1,19 @@
+<div class="container">
+    <h2>User Register</h2>
+    <form [formGroup]="formReg" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="text" class="form-control" formControlName="email">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" formControlName="password">
+        </div>
+        <div class="container m-2">
+            <input class="btn btn-info text-white" type="submit" value="Enviar">
+        </div>
+    </form>
+    <div class="container m-2"> <button (click)="onGoogle()" type="button" class="btn btn-primary">
+    <i class="fab fa-google"></i> Register with Google
+  </button></div>
+</div>
