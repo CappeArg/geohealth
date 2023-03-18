@@ -12,7 +12,7 @@ export class RegisterComponent implements OnInit {
 
   formReg!: FormGroup;
 
-  constructor( private userservice : UserService, private router:Router) {
+  constructor( private userService : UserService, private router:Router) {
     this.formReg = new FormGroup({
       email: new FormControl(),
       password: new FormControl()
@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(){
-    this.userservice.register(this.formReg.value)
+    this.userService.register(this.formReg.value)
     .then(response=>{
       console.log(response)
       this.router.navigate(['/login']);
@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
 }
 
   onGoogle(){
-    this.userservice.loginWithGoogle()
+    this.userService.loginWithGoogle()
     .then(response=>{
       console.log(response)
       this.router.navigate(['/login']);

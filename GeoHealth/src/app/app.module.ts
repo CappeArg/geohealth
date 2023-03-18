@@ -13,7 +13,9 @@ import { LoginComponent } from './components/login/login.component';
 import { CrudServicesComponent } from './components/crud-services/crud-services.component';
 import { RegisterComponent } from './components/register/register.component';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { ModalServicesComponent } from './components/modal-services/modal-services.component';
 
 
 @NgModule({
@@ -23,14 +25,17 @@ import { ReactiveFormsModule } from '@angular/forms';
     NavbarComponent,
     LoginComponent,
     CrudServicesComponent,
-    RegisterComponent
+    RegisterComponent,
+    ModalServicesComponent
     ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,1 +1,43 @@
-<p>crud-services works!</p>
+<section>
+    <div class="bg-image h-100">
+        <div class="row m-2">
+            <h2 class="text-info">Manage <b>Health Services</b></h2>
+        </div>
+        <div class="row m-2">
+            <a class="btn btn-info text-right text-white" [routerLink]="['/modalservice']"><i class="material-icons">&#xE147;</i> <span>Add New Service</span></a>
+        </div>
+        <div class="mask d-flex align-items-center h-100  m-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="card mask-custom border shadow-lg">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless mb-0">
+                                        <thead>
+                                            <tr class="text-info">
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let service of list">
+                                                <th scope="row"> {{service.name}}</th>
+                                                <td>{{service.description}}</td>
+                                                <td>
+                                                    <a [routerLink]="['/modalservice', service.id]" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+                                                    <a (click)="onClickDelete(service)" class="delete" data-toggle="modal" style="cursor: pointer;"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
-import { canActivate } from '@angular/fire/auth-guard';
 
 
 @Component({
@@ -15,6 +14,7 @@ export class NavbarComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
+
   }
 
   logOut(){
@@ -26,6 +26,5 @@ export class NavbarComponent implements OnInit {
       console.log(err);
     })
   }
-  
 
-}
+  }

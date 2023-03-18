@@ -1,14 +1,20 @@
-<nav class="navbar bg-body-tertiary bg-white">
-
+<nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary bg-white">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="../../../assets/2acf97e741494814987a3a12451720f7 (2).png" alt="Logo" width="60" height="48   " class="d-inline-block align-text-top"> Geo Health
+            <img src="../../../assets/2acf97e741494814987a3a12451720f7 (2).png" alt="Logo" width="60" height="48" class="d-inline-block align-text-top"> Geo Health
         </a>
-        <form class="d-flex" role="Login">
-            <button class="btn btn-info text-white m-3" routerLink="/login">Login  </button>
-            <button class="btn btn-info text-white m-3" routerLink="/register">Register</button>
-        </form>
-
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto dropdown-menu-end">
+                <li class="nav-item">
+                    <a class="nav-link btn btn-info text-white w-auto m-1" href="#" routerLink="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-info text-white w-auto m-1" href="#" routerLink="/register">Register</a>
+                </li>
+            </ul>
+        </div>
     </div>
-
 </nav>
