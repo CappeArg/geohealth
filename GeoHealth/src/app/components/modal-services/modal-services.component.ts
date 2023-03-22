@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup} from '@angular/forms';
+import { FormBuilder, FormGroup} from '@angular/forms';
 import { HealthservService } from 'src/app/services/healthserv.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -11,28 +11,73 @@ import { Services } from '../../interfaces/services';
   styleUrls: ['./modal-services.component.css']
 })
 export class ModalServicesComponent implements OnInit {
-
+  serviceEdit:any;
+  
+  form: FormGroup = this.fb.group({
+    name        : ["Name"],
+    description : ["Description"]
+  })
   // customer: any;
-  form:FormGroup;
   add:boolean = false;
-
+ 
   constructor(private healthService: HealthservService,
               private router:Router,
-              // private route:ActivatedRoute
-              ) {
-                this.form = new FormGroup({
-                  name: new FormControl(),
-                  description: new FormControl()
-                })
-               }
+              private route:ActivatedRoute,
+              private fb: FormBuilder
+              ) {    }
+               
 
-  ngOnInit(): void {  }
+ngOnInit() { 
+    const serviceId = this.route.snapshot.paramMap.get('id');    
+    if(serviceId === null){
+      this.add= true
 
-  async onSubmit(){
-    console.log(this.form.value)
-  const response = await this.healthService.addService(this.form.value);
-  this.router.navigate(['/services']);
+      
+   }
+   else{
+      this.add = false
+      this.healthService.getService(serviceId).subscribe(data=>{
+        this.serviceEdit = data
+        this.form = this.fb.group({
+          name        : [this.serviceEdit.name],
+          description : [this.serviceEdit.description]
+        })
+      })
+      
+
   }
+}
+
+ async onSubmit(){
+
+  if(this.add){
+    console.log(this.form.value)
+  try{
+    const response = await this.healthService.addService(this.form.value);
+  Swal.fire('', 'The service was add succesfully', 'success');
+  setTimeout(() => {
+    this.router.navigate(['/services']);
+  }, 500);
+  } catch (error:any) {
+
+    //TODO: error handling with firebase
+  if (error.status === 400) {
+  Swal.fire('', "the server wasn't process the request", 'error');
+  } else {
+  console.error(error);
+  }
+  }
+}
+  else{
+    const response = await this.healthService.updateService({
+      id: this.serviceEdit.id,
+      name: this.form.value.name,
+      description:this.form.value.description
+    })
+    this.router.navigate(['/services']);
+  }
+}
+
 
   cancel() {
     this.router.navigate(['/services']);

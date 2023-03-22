@@ -7,7 +7,8 @@
                         <div class="container mx-auto">
                             <form [formGroup]="form" (ngSubmit)="onSubmit()" class="m-4">
 
-                                <h4>Add Service</h4>
+                                <h4 *ngIf="add">Add Service</h4>
+                                <h4 *ngIf="!add">Edit Service</h4>
 
                                 <div class="modal-body">
                                     <div class="form-group m-1">
@@ -24,7 +25,8 @@
                                     <div class="d-flex justify-content-center">
                                         <div class="col-12">
                                             <input (click)="cancel()" type="button" class="btn btn-danger m-1" value="Cancel">
-                                            <input type="submit" class="btn btn-info text-white m-1" value="Add">
+                                            <input *ngIf="add" type="submit" class="btn btn-info text-white m-1" value="Add">
+                                            <input *ngIf="!add" type="submit" class="btn btn-info text-white m-1" value="Edit">
                                         </div>
                                     </div>
                                 </div>

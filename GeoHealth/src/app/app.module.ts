@@ -32,7 +32,6 @@ import { ModalServicesComponent } from './components/modal-services/modal-servic
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

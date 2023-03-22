@@ -17,8 +17,6 @@ export class UserService {
     return signInWithEmailAndPassword(this.auth,email,password)
   }
 
-
-
   logout(){
     return signOut(this.auth)
   }
