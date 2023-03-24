@@ -53,7 +53,7 @@ ngOnInit() {
   if(this.add){
     console.log(this.form.value)
   try{
-    const response = await this.healthService.addService(this.form.value);
+    const response = await this.healthService.addService(this.form.value);  
   Swal.fire('', 'The service was add succesfully', 'success');
   setTimeout(() => {
     this.router.navigate(['/services']);
@@ -69,11 +69,20 @@ ngOnInit() {
   }
 }
   else{
+    try{
     const response = await this.healthService.updateService({
       id: this.serviceEdit.id,
       name: this.form.value.name,
       description:this.form.value.description
     })
+    Swal.fire('', 'The customer was edit succesfully', 'success');
+      setTimeout(() => {
+        this.router.navigate(['/services']);
+      }, 500);
+    } catch (error) {
+      Swal.fire('', "the server wasn't process the request", 'error');
+      console.error(error)
+    }
     this.router.navigate(['/services']);
   }
 }

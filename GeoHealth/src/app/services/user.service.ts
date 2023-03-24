@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithPopup, signOut, GoogleAuthProvider} from '@angular/fire/auth';
-import { signInWithEmailAndPassword } from '@firebase/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithPopup, signOut, GoogleAuthProvider, signInWithEmailAndPassword, User, authState} from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
+  user: User | null  = this.auth.currentUser
+  getAuth:any;
+
 
   constructor(private auth:Auth) { }
 
@@ -25,5 +28,7 @@ export class UserService {
     return signInWithPopup(this.auth, new GoogleAuthProvider())
   }
 
-  
+  getChangeUser(){
+    return authState(this.auth)   
+   }
 }
