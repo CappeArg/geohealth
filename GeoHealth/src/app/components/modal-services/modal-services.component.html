@@ -14,10 +14,12 @@
                                     <div class="form-group m-1">
                                         <label>Service Name</label>
                                         <input type="text" class="form-control m-1" formControlName="name">
+                                        <span *ngIf="form.controls['name'].errors && form.controls['name'].touched" class="form-text text-danger">Please, complete the name, with no more than 20 characters</span>
                                     </div>
                                     <div class="form-group m-1">
                                         <label>Description</label>
                                         <textarea class="form-control m-1" cols="6" rows="3" formControlName="description"></textarea>
+                                        <span *ngIf="form.controls['description'].errors && form.controls['description'].touched" class="form-text text-danger">Please, complete the description, with no more than 140 characters</span>
                                     </div>
                                 </div>
 
@@ -25,8 +27,8 @@
                                     <div class="d-flex justify-content-center">
                                         <div class="col-12">
                                             <input (click)="cancel()" type="button" class="btn btn-danger m-1" value="Cancel">
-                                            <input *ngIf="add" type="submit" class="btn btn-info text-white m-1" value="Add">
-                                            <input *ngIf="!add" type="submit" class="btn btn-info text-white m-1" value="Edit">
+                                            <input [disabled]="form.invalid" *ngIf="add" type="submit" class="btn btn-info text-white m-1" value="Add">
+                                            <input [disabled]="form.invalid" *ngIf="!add" type="submit" class="btn btn-info text-white m-1" value="Edit">
                                         </div>
                                     </div>
                                 </div>

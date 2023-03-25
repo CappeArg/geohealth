@@ -57,25 +57,4 @@ export class CrudServicesComponent implements OnInit {
 
 
   }
-
-
-  
-
-  // if (result.isConfirmed) {
-  //   const res = await this.customerService.deleteRecord(customer.id);
-  //   if (this.okDelete(customer.id, this.customers)) {
-  //     await Swal.fire(
-  //       'Deleted',
-  //       'The customer was delete successfully.',
-  //       'success'
-  //     );
-  //     this.getCustomers()
-  //   } else {
-  //     await Swal.fire(
-  //       'Error',
-  //       'Error, please try again',
-  //       'error'
-  //     );  
-  //   }
-  // }
 }

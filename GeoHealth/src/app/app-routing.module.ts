@@ -6,6 +6,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard'
 import { ModalServicesComponent } from './components/modal-services/modal-services.component';
+import { CrudPartnersComponent } from './components/crud-partners/crud-partners.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -15,6 +16,8 @@ const routes: Routes = [
   {path: 'modalservice/:id', component: ModalServicesComponent},
  //Maybe I can change this with a new HomeComponent
   { path: 'services', component: CrudServicesComponent, 
+  ...canActivate(()=> redirectUnauthorizedTo(['/register']))},
+  { path: 'partners', component: CrudPartnersComponent, 
   ...canActivate(()=> redirectUnauthorizedTo(['/register']))},
 
   { path: '**', redirectTo: '/home' }

@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
     this.userService.register(this.formReg.value)
     .then(response=>{
       console.log(response)
-      this.router.navigate(['/login']);
+      this.router.navigate(['/services']);
     })
     .catch(err => {
       console.log(err)
@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
     this.userService.loginWithGoogle()
     .then(response=>{
       console.log(response)
-      this.router.navigate(['/login']);
+      this.router.navigate(['/services']);
     })
     .catch(err=>{
       console.log(err)
