@@ -7,6 +7,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard'
 import { ModalServicesComponent } from './components/modal-services/modal-services.component';
 import { CrudPartnersComponent } from './components/crud-partners/crud-partners.component';
+import { ModalPartnersComponent } from './components/modal-partners/modal-partners.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -19,6 +20,8 @@ const routes: Routes = [
   ...canActivate(()=> redirectUnauthorizedTo(['/register']))},
   { path: 'partners', component: CrudPartnersComponent, 
   ...canActivate(()=> redirectUnauthorizedTo(['/register']))},
+  { path: 'modalpartner', component: ModalPartnersComponent },
+  {path: 'modalpartner/:id', component: ModalPartnersComponent},
 
   { path: '**', redirectTo: '/home' }
 ];

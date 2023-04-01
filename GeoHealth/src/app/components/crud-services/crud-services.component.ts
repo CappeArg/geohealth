@@ -43,7 +43,7 @@ export class CrudServicesComponent implements OnInit {
       if (response == undefined) {
         await Swal.fire(
           'Deleted',
-          'The customer was delete successfully.',
+          'The service was delete successfully.',
           'success'
         );
    } else {

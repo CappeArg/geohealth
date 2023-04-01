@@ -3,16 +3,14 @@ import { Services } from "./services";
 export interface Partners {
     id?:string;
     name:string;
-    services: Services[];
-    location: {
-        street: string,
-        number: number,
-        city: string,
-        state: string
-    };
-    contactData: {
-        email: string;
-        phone: string;
-    }
+    service: Services;
+    street: string,
+    number: number,
+    city: string,
+    state: string,
+    lat?: number;
+    lon?: number;
+    email: string;
+    phone: string;
     active: boolean;
 }

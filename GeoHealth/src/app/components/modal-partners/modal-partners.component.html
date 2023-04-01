@@ -1,1 +1,81 @@
-<p>modal-partners works!</p>
+<div id="addPartnerModal" class="m-4">
+    <div class="container">
+        <div class="card mask-custom border shadow-lg">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-md-12">
+                    <ng-container *ngIf="form != undefined">
+                        <div class="container mx-auto">
+                            <form [formGroup]="form" (ngSubmit)="onSubmit()" class="m-4">
+
+                                <h4 *ngIf="add">Add Partner</h4>
+                                <h4 *ngIf="!add">Edit Partner</h4>
+
+                                <div class="modal-body">
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="name" class="form-label">Name</label>
+                                            <input type="text" class="form-control" id="name" formControlName="name">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="service" class="form-label">Services</label>
+                                            <!-- <input type="text" class="form-control" id="service" formControlName="service"> -->
+                                            <select class="form-select" id="service" formControlName="service" selectmode="false">
+                                                <option *ngFor="let service of listServices">{{service.name}}</option>
+                                              </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="street" class="form-labeR7fuHSd92gMI9XnBv6kXl">Street</label>
+                                            <input type="text" class="form-control" id="street" formControlName="street">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="number" class="form-label">Number</label>
+                                            <input type="text" class="form-control" id="number" formControlName="number">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="city" class="form-label">City</label>
+                                            <input type="text" class="form-control" id="city" formControlName="city">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="state" class="form-label">State</label>
+                                            <input type="text" class="form-control" id="state" formControlName="state">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="text" class="form-control" id="email" formControlName="email">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="phone" class="form-label">Phone</label>
+                                            <input type="text" class="form-control" id="phone" formControlName="phone">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="active" class="form-label">Active</label>
+                                            <input type="checkbox" class="form-check-input" id="active" formControlName="active">
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer m-2">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="col-12">
+                                                <input (click)="cancel()" type="button" class="btn btn-danger m-1" value="Cancel">
+                                                <input [disabled]="form.invalid" *ngIf="add" type="submit" class="btn btn-info text-white m-1" value="Add">
+                                                <input [disabled]="form.invalid" *ngIf="!add" type="submit" class="btn btn-info text-white m-1" value="Edit">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -24,10 +24,19 @@
                     <img src="{{ user.photoURL}}" alt="Avatar" class="profile-image">
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-info w-auto m-1">User: {{ user.displayName }}</a>
+                    <a class="nav-link text-info w-auto m-1">{{ user.displayName }}</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link btn btn-info text-white w-auto m-1" routerLink="/partners">Partners</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link btn btn-info text-white w-auto m-1" (click)="logOut()" href="#">Logout</a>
+                    <a class="nav-link btn btn-info text-white w-auto m-1" routerLink="/services" href="#">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-info w-auto m-1" (click)="logOut()" href="#">
+                        <i class="material-icons">exit_to_app</i> Logout
+                    </a>
                 </li>
             </ul>
         </div>
