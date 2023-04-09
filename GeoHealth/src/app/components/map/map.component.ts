@@ -13,7 +13,7 @@ export class MapComponent implements OnInit {
   mapkey:string = environment.mapKey;
   listP: Partners[] = [];
 
-  title = 'My first AGM project';
+//Initial Map
   lat = -34.5833472;
   lng = -58.4187904;
 
