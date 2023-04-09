@@ -19,16 +19,16 @@ export class ModalPartnersComponent implements OnInit {
   address: string = "";
   
   form: FormGroup = this.fb.group({
-    name        : ['', [Validators.required, Validators.maxLength(20)]],
-    service     : ['',[]],
-    street      : ['',[]],
-    number      : ['',[]],
-    city        : ['',[]],
-    state       : ['',[]],
-    lat         : [{value:'', disabled:true, readonly:true},[],],
-    lng         : [{value:'', disabled:true, readonly:true},[]],
-    email       : ['',[Validators.email]],
-    phone       : ['',[]],
+    name        : ['', [Validators.required]],
+    service     : ['',[Validators.required]],
+    street      : ['',[Validators.required]],
+    number      : ['',[Validators.required]],
+    city        : ['',[Validators.required]],
+    state       : ['',[Validators.required]],
+    lat         : [{value:'', disabled:true, readonly:true},[Validators.required]],
+    lng         : [{value:'', disabled:true, readonly:true},[Validators.required]],
+    email       : ['',[Validators.email, Validators.required]],
+    phone       : ['',[Validators.required]],
     active      : ['',[]]
   })
 
