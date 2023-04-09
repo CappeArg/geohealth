@@ -8,6 +8,7 @@ export const environment = {
     authDomain: "geohealthprod.firebaseapp.com",
     messagingSenderId: "846166545002",
   },
+  mapKey:"",
   production: true,
 
 };

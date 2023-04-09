@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { GmapsService } from 'src/app/services/gmaps.service';
 import { PartnerservService } from 'src/app/services/partnerserv.service';
 import Swal from 'sweetalert2';
 import { Services } from '../../interfaces/services';
 import { HealthservService } from '../../services/healthserv.service';
+import { Observable, async } from 'rxjs';
 
 @Component({
   selector: 'app-modal-partners',
@@ -14,6 +16,7 @@ import { HealthservService } from '../../services/healthserv.service';
 export class ModalPartnersComponent implements OnInit {
   partnerEdit:any;
   listServices: Services[] = [];
+  address: string = "";
   
   form: FormGroup = this.fb.group({
     name        : ['', [Validators.required, Validators.maxLength(20)]],
@@ -22,6 +25,8 @@ export class ModalPartnersComponent implements OnInit {
     number      : ['',[]],
     city        : ['',[]],
     state       : ['',[]],
+    lat         : [{value:'', disabled:true, readonly:true},[],],
+    lng         : [{value:'', disabled:true, readonly:true},[]],
     email       : ['',[Validators.email]],
     phone       : ['',[]],
     active      : ['',[]]
@@ -31,6 +36,7 @@ export class ModalPartnersComponent implements OnInit {
 
   constructor(private partnerServ: PartnerservService,
               private healthservservice: HealthservService,
+              private mapservice: GmapsService,
               private router:Router,
               private route:ActivatedRoute,
               private fb: FormBuilder
@@ -42,6 +48,8 @@ ngOnInit() {
     if(partnerId === null){
       this.add= true
 
+      //Testing Consulta Google maps
+// this.getLatLng("Juan Manuel de Rosas", 957, "Rosario", "Santa Fe")
       
    }
    else{
@@ -57,6 +65,8 @@ ngOnInit() {
           number      : [this.partnerEdit.number],
           city        : [this.partnerEdit.city],
           state       : [this.partnerEdit.state],
+          lat         : [this.partnerEdit.lat],
+          lng         : [this.partnerEdit.lng],
           email       : [this.partnerEdit.email],
           phone       : [this.partnerEdit.phone],
           active      : [this.partnerEdit.active]
@@ -73,12 +83,45 @@ ngOnInit() {
   })
 }
 
+dataFormGeo(){
+  console.log("ok GEO")
+  const street = this.form.controls['street'].value;
+  const number = this.form.controls['number'].value;
+  const city = this.form.controls['city'].value;
+  const state = this.form.controls['state'].value;
+
+return {street, number, city, state}
+  // this.getLatLng("Juan Manuel de Rosas", 957, "Rosario", "Santa Fe")
+}
+
+setLatLn(lat:string, lng:string){
+  this.form.patchValue({
+    lat : lat,
+    lng : lng
+  })
+}
+
+getAddress(){
+
+  const query = this.dataFormGeo();
+  this.getLatLng(query.street, query.number, query.city, query.state).subscribe((info: any) => {
+    console.log(info);
+    const lat = info.results[0].geometry.location.lat
+    const lng = info.results[0].geometry.location.lng
+    this.setLatLn(lat, lng);
+  }, error => {
+    console.log(error);
+  });
+
+  }
+
+
  async onSubmit(){
 
   if(this.add){
     console.log(this.form.value)
   try{
-    const response = await this.partnerServ.addPartner(this.form.value);  
+  const response = await this.partnerServ.addPartner(this.form.value);  
   Swal.fire('', 'The partner was add succesfully', 'success');
   setTimeout(() => {
     this.router.navigate(['/partners']);
@@ -95,6 +138,7 @@ ngOnInit() {
 }
   else{
     try{
+
     const response = await this.partnerServ.updatePartner({
       id         : this.partnerEdit.id,
       name       : this.form.value.name,
@@ -103,6 +147,8 @@ ngOnInit() {
       number     : this.form.value.number,
       city       : this.form.value.city,
       state      : this.form.value.state,
+      lat        : this.form.value.lat,
+      lng        : this.form.value.lng,
       email      : this.form.value.email,
       phone      : this.form.value.phone,
       active     : this.form.value.active    })
@@ -121,5 +167,10 @@ ngOnInit() {
 
   cancel() {
     this.router.navigate(['/partners']);
+  }
+
+  getLatLng(street:string, number: number, city:string, state:string): Observable<any> {
+    const address = `${street} ${number}, ${city}, ${state}, Argentina`;
+    return this.mapservice.getCoordFromAddress(address);
   }
 }

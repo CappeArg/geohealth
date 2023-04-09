@@ -12,10 +12,10 @@ export const environment = {
     authDomain: 'geohealthdev.firebaseapp.com',
     messagingSenderId: '463932809199',
   },
+  mapKey : "AIzaSyDXugavn6Zsu1ZRtaEjlzI2T5IFCRSgTec",
   production: false,
 
 };
-
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

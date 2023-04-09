@@ -9,7 +9,7 @@ export interface Partners {
     city: string,
     state: string,
     lat?: number;
-    lon?: number;
+    lng?: number;
     email: string;
     phone: string;
     active: boolean;

@@ -47,6 +47,19 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
+                                            <label for="lng" class="form-label">lng</label>
+                                            <input type="text" class="form-control" id="lng" formControlName="lng">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="lat" class="form-label">lat</label>
+                                            <input type="text" class="form-control" id="lat" formControlName="lat">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <input (click)="getAddress()" type="button" class="btn btn-info text-white m-1" value="Geolocate">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
                                             <label for="email" class="form-label">Email</label>
                                             <input type="text" class="form-control" id="email" formControlName="email">
                                         </div>

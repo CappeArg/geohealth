@@ -8,6 +8,7 @@ import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard'
 import { ModalServicesComponent } from './components/modal-services/modal-services.component';
 import { CrudPartnersComponent } from './components/crud-partners/crud-partners.component';
 import { ModalPartnersComponent } from './components/modal-partners/modal-partners.component';
+import { MapComponent } from './components/map/map.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent},
   { path: 'modalservice', component: ModalServicesComponent },
   {path: 'modalservice/:id', component: ModalServicesComponent},
+  { path: 'map', component: MapComponent },
  //Maybe I can change this with a new HomeComponent
   { path: 'services', component: CrudServicesComponent, 
   ...canActivate(()=> redirectUnauthorizedTo(['/register']))},
