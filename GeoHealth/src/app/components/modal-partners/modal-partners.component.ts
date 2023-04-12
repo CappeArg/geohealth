@@ -25,11 +25,11 @@ export class ModalPartnersComponent implements OnInit {
     number      : ['',[Validators.required]],
     city        : ['',[Validators.required]],
     state       : ['',[Validators.required]],
-    lat         : [{value:'', disabled:true, readonly:true},[Validators.required]],
-    lng         : [{value:'', disabled:true, readonly:true},[Validators.required]],
+    lat         : ['',[Validators.required]],
+    lng         : ['',[Validators.required]],
     email       : ['',[Validators.email, Validators.required]],
     phone       : ['',[Validators.required]],
-    active      : ['',[]]
+    active      : ['true',[]]
   })
 
   add:boolean = false;

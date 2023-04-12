@@ -1,11 +1,30 @@
-<div class="m-4">
-    <h1 class="text-info">Services Map</h1>
+<div class="m-4 animate__animated animate__fadeIn animate__faster">
+    <div class="container">
+        <h1 class="text-info">Services Map</h1>
+    </div>
+    <div [formGroup]="fService">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="service" class="form-label">Search Services</label>
+                <input type="text" class="form-control" id="service" formControlName="service">
+                <input (click)="lookService()" type="button" class="btn btn-info text-white m-2" value="Search Service">
+            </div>
+        </div>
+        <div [formGroup]="fPartner">
+            <div class="col-md-6 mb-3">
+                <label for="partner" class="form-label">Search Partners</label>
+                <input type="text" class="form-control" id="number" formControlName="partner">
+                <input (click)="lookPartner()" type="button" class="btn btn-info text-white m-2" value="Search Partner">
+
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="card mask-custom border shadow-lg">
             <div class="row justify-content-center">
                 <div class="container">
                     <agm-map [latitude]="lat" [longitude]="lng">
-                        <agm-marker *ngFor="let partner of listP " [latitude]="partner.lat || 0 " [longitude]="partner.lng || 0 ">
+                        <agm-marker *ngFor="let partner of listP" [latitude]="partner.lat || 0 " [longitude]="partner.lng || 0 ">
                             <agm-info-window>
                                 <h6>{{ partner.name }}</h6>
                                 <p>{{ partner.service }}</p>
