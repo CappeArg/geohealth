@@ -36,11 +36,20 @@ ngOnInit() {
    else{
       this.add = false
       this.healthService.getService(serviceId).subscribe(data=>{
+        Swal.showLoading()
         this.serviceEdit = data
+        Swal.close()
         this.form = this.fb.group({
           name        : [this.serviceEdit.name],
           description : [this.serviceEdit.description]
         })
+      },
+      error => {
+        Swal.fire(
+          'Error',
+          "Sorry, we couldn't complete your request",
+          'error'
+        );
       })
       
 
@@ -63,7 +72,11 @@ ngOnInit() {
   if (error.status === 400) {
   Swal.fire('', "the server wasn't process the request", 'error');
   } else {
-  console.error(error);
+      Swal.fire(
+        'Error',
+        "Sorry, we couldn't complete your request",
+        'error'
+      );
   }
   }
 }
@@ -91,5 +104,3 @@ ngOnInit() {
     this.router.navigate(['/services']);
   }
 }
-
-

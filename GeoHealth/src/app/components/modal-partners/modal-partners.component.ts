@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { Services } from '../../interfaces/services';
 import { HealthservService } from '../../services/healthserv.service';
 import { Observable, async } from 'rxjs';
+import { GeoPoint } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-modal-partners',
@@ -25,8 +26,11 @@ export class ModalPartnersComponent implements OnInit {
     number      : ['',[Validators.required]],
     city        : ['',[Validators.required]],
     state       : ['',[Validators.required]],
-    lat         : ['',[Validators.required]],
-    lng         : ['',[Validators.required]],
+    geo         : this.fb.group({
+      latitude  : ['',[Validators.required]],
+      longitude : ['',[Validators.required]],
+
+    }),
     email       : ['',[Validators.email, Validators.required]],
     phone       : ['',[Validators.required]],
     active      : ['true',[]]
@@ -65,13 +69,22 @@ ngOnInit() {
           number      : [this.partnerEdit.number],
           city        : [this.partnerEdit.city],
           state       : [this.partnerEdit.state],
-          lat         : [this.partnerEdit.lat],
-          lng         : [this.partnerEdit.lng],
+          geo         : this.fb.group({
+            latitude: [this.partnerEdit.geo.lat],
+            longitude: [this.partnerEdit.geo.lng]
+          }),
           email       : [this.partnerEdit.email],
           phone       : [this.partnerEdit.phone],
           active      : [this.partnerEdit.active]
 
         })
+      },
+      error => {
+        Swal.fire(
+          'Error',
+          "Sorry, we couldn't complete your request",
+          'error'
+        );
       })
 
   }
@@ -80,6 +93,13 @@ ngOnInit() {
 
     this.listServices = services;
 
+  },
+  error => {
+    Swal.fire(
+      'Error',
+      "Sorry, we couldn't complete your request",
+      'error'
+    );
   })
 }
 
@@ -95,10 +115,8 @@ return {street, number, city, state}
 }
 
 setLatLn(lat:string, lng:string){
-  this.form.patchValue({
-    lat : lat,
-    lng : lng
-  })
+  this.form.get('geo')?.get('latitude')?.patchValue(lat);
+  this.form.get('geo')?.get('longitude')?.patchValue(lng);  
 }
 
 getAddress(){
@@ -119,7 +137,7 @@ getAddress(){
  async onSubmit(){
 
   if(this.add){
-    console.log(this.form.value)
+    // console.log(this.form.value)
   try{
   const response = await this.partnerServ.addPartner(this.form.value);  
   Swal.fire('', 'The partner was add succesfully', 'success');
@@ -132,23 +150,26 @@ getAddress(){
   if (error.status === 400) {
   Swal.fire('', "the server wasn't process the request", 'error');
   } else {
-  console.error(error);
-  }
+      Swal.fire(
+        'Error',
+        "Sorry, we couldn't complete your request",
+        'error'
+      );
+    }
   }
 }
   else{
     try{
 
     const response = await this.partnerServ.updatePartner({
-      id         : this.partnerEdit.id,
+      id         : this.partnerEdit.id,  
       name       : this.form.value.name,
       service    : this.form.value.service, 
       street     : this.form.value.street,
       number     : this.form.value.number,
       city       : this.form.value.city,
       state      : this.form.value.state,
-      lat        : this.form.value.lat,
-      lng        : this.form.value.lng,
+      geo        : new GeoPoint(this.form.get('geo')?.get('latitude')?.value, this.form.get('geo')?.get('longitude')?.value),
       email      : this.form.value.email,
       phone      : this.form.value.phone,
       active     : this.form.value.active    })
@@ -158,7 +179,7 @@ getAddress(){
       }, 500);
     } catch (error) {
       Swal.fire('', "the server wasn't process the request", 'error');
-      console.error(error)
+      // console.error(error)
     }
     this.router.navigate(['/partners']);
   }

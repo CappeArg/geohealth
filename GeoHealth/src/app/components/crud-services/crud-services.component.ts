@@ -19,8 +19,17 @@ export class CrudServicesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    Swal.showLoading()
     this.healthService.getServices().subscribe(services =>{
       this.list = services
+      Swal.close()
+    },
+    error => {
+      Swal.fire(
+        'Error',
+        "Sorry, we couldn't complete your request",
+        'error'
+      );
     });
   }
 
@@ -51,7 +60,7 @@ export class CrudServicesComponent implements OnInit {
           'Error',
           'Error, please try again',
           'error'
-        );  
+        )
       }
     }
 

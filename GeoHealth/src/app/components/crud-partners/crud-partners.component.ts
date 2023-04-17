@@ -18,8 +18,17 @@ export class CrudPartnersComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    Swal.showLoading()
     this.partnerServ.getPartners().subscribe(partners =>{
       this.list = partners
+      Swal.close();
+    },
+    error => {
+      Swal.fire(
+        'Error',
+        "Sorry, we couldn't complete your request",
+        'error'
+      );
     });
   }
 

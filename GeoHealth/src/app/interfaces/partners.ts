@@ -1,15 +1,14 @@
-import { Services } from "./services";
+import { GeoPoint } from "@angular/fire/firestore";
 
 export interface Partners {
     id?:string;
     name:string;
-    service: any;
+    service: [];
     street: string,
     number: number,
     city: string,
     state: string,
-    lat?: number;
-    lng?: number;
+    geo: GeoPoint
     email: string;
     phone: string;
     active: boolean;

@@ -55,18 +55,18 @@
                                             <span *ngIf="form.controls['state'].errors && form.controls['state'].touched" class="form-text text-danger">Please, complete this value</span>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" formGroupName="geo">
                                         <div class="col-md-6 mb-3">
                                             <label for="lng" class="form-label">lng</label>
-                                            <input type="text" class="form-control" id="lng" formControlName="lng">
+                                            <input type="text" class="form-control" id="longitude" formControlName="longitude">
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="lat" class="form-label">lat</label>
-                                            <input type="text" class="form-control" id="lat" formControlName="lat">
+                                            <input type="text" class="form-control" id="latitude" formControlName="latitude">
                                         </div>
                                     </div>
-                                    <span *ngIf="form.controls['lat'].errors && form.controls['lng'].errors && form.controls['email'].untouched" class="form-text text-success">Please, press the button "Geolocate"</span>
-                                    <span *ngIf="form.controls['lat'].errors && form.controls['lng'].errors && form.controls['email'].touched" class="form-text text-danger">Please, press the button "Geolocate"</span>
+                                    <!-- <span *ngIf="form.controls['lat'].errors && form.controls['lng'].errors && form.controls['email'].untouched" class="form-text text-success">Please, press the button "Geolocate"</span>
+                                    <span *ngIf="form.controls['lat'].errors && form.controls['lng'].errors && form.controls['email'].touched" class="form-text text-danger">Please, press the button "Geolocate"</span> -->
                                     <div class="row">
                                         <input (click)="getAddress()" type="button" class="btn btn-info text-white m-1" value="Geolocate">
                                     </div>
