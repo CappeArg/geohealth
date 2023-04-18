@@ -14,8 +14,8 @@ export class MapComponent implements OnInit {
 
   mapkey:string = environment.mapKey;
   direccion = ''; // Propiedad definida con valor predeterminado vacío
-  listP: Partners[] = [];
-  filter: Partners[] = [];
+  listP: any = [];
+  search:boolean=false
 
 
 //Initial Map
@@ -79,15 +79,16 @@ export class MapComponent implements OnInit {
   lookService(){
     const service:string = this.fService.controls['service'].value;
     
-      this.filter = this.listP.filter(partner => partner.service.some((s:string) => s.toLowerCase().includes(service.toLowerCase())));
+      // this.filter = this.listP.filter(partner => partner.service.some((s:string) => s.toLowerCase().includes(service.toLowerCase())));
   }
 
   
 
-  lookPartner(){
-    const partner = this.fPartner.controls['partner'].value;
-      
-    console.log(partner)
+  async lookPartner() {
+    const filter = this.fPartner.controls['partner'].value
+    this.partnerServ.getPartnersByName(filter).subscribe((data:any)=>{
+     console.log(data)
+    })
   }
 
 }

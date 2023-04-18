@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, docData, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, docData, updateDoc, query, where, getDocs } from '@angular/fire/firestore';
 import { Partners } from '../interfaces/partners';
 import { Observable } from 'rxjs';
 
@@ -18,14 +18,14 @@ export class PartnerservService {
 
   getPartners():Observable<Partners[]>{
 
-    const serviceRef = collection(this.firestore,'partners');
-    return collectionData(serviceRef, {idField:'id'}) as Observable<Partners[]> 
+    const partnerRef = collection(this.firestore,'partners');
+    return collectionData(partnerRef, {idField:'id'}) as Observable<Partners[]> 
   }
 
 
   deletePartner(partner:Partners){
-    const serviceDocRef = doc(this.firestore,`partners/${partner.id}`);
-    return deleteDoc(serviceDocRef)
+    const partnerDocRef = doc(this.firestore,`partners/${partner.id}`);
+    return deleteDoc(partnerDocRef)
   }
 
   getPartner(id: string) {
@@ -37,4 +37,11 @@ export class PartnerservService {
     const partnerDocRef = doc(this.firestore, `partners/${partner.id}`);
     return updateDoc(partnerDocRef, { ...partner });
   }
+
+    getPartnersByName(searchValue: string): Observable<Partners[]> {
+      const partnerQuery = query( collection(this.firestore, 'partners'),where('name', '>=', searchValue),
+      where('name', '<=', searchValue + '.*'));
+      return collectionData(partnerQuery, { idField: 'id' }) as Observable<Partners[]>;
+    }
+  
 }
