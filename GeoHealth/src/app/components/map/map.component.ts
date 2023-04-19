@@ -85,10 +85,18 @@ export class MapComponent implements OnInit {
   
 
   async lookPartner() {
+    
     const filter = this.fPartner.controls['partner'].value
     this.partnerServ.getPartnersByName(filter).subscribe((data:any)=>{
-     console.log(data)
+     this.listP = data
     })
+
+  }
+
+  changeSearch(){
+    if(this.search){
+      this.search = false;
+    }
   }
 
 }

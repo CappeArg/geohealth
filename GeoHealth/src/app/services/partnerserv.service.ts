@@ -11,8 +11,10 @@ export class PartnerservService {
   constructor( private firestore:Firestore ) { }
 
   addPartner(partner:Partners){
-    const partnerRef = collection(this.firestore,'partners')
 
+    const partnerRef = collection(this.firestore,'partners')
+  
+    partner.nameLowercase = partner.name.toLowerCase();
     return addDoc(partnerRef, partner)
   }
 
@@ -35,12 +37,13 @@ export class PartnerservService {
 
   updatePartner(partner: Partners) {
     const partnerDocRef = doc(this.firestore, `partners/${partner.id}`);
+    partner.nameLowercase = partner.name.toLowerCase();
     return updateDoc(partnerDocRef, { ...partner });
   }
 
     getPartnersByName(searchValue: string): Observable<Partners[]> {
-      const partnerQuery = query( collection(this.firestore, 'partners'),where('name', '>=', searchValue),
-      where('name', '<=', searchValue + '.*'));
+      const partnerQuery = query( collection(this.firestore, 'partners'),where('nameLowercase', '>=', searchValue.toLowerCase()),
+      where('nameLowercase', '<=', searchValue.toLowerCase() + '.*'));
       return collectionData(partnerQuery, { idField: 'id' }) as Observable<Partners[]>;
     }
   

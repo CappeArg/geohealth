@@ -33,7 +33,7 @@ export class ModalPartnersComponent implements OnInit {
     }),
     email       : ['',[Validators.email, Validators.required]],
     phone       : ['',[Validators.required]],
-    active      : ['true',[]]
+    active      : ['true',[]],
   })
 
   add:boolean = false;
@@ -76,6 +76,7 @@ ngOnInit() {
           email       : [this.partnerEdit.email],
           phone       : [this.partnerEdit.phone],
           active      : [this.partnerEdit.active]
+
 
         })
       },

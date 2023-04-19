@@ -3,6 +3,7 @@ import { GeoPoint } from "@angular/fire/firestore";
 export interface Partners {
     id?:string;
     name:string;
+    nameLowercase?:string;
     service: [];
     street: string,
     number: number,

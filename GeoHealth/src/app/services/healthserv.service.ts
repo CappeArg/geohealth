@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, doc, deleteDoc, updateDoc, docData } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, doc, deleteDoc, updateDoc, docData, query, where } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Services } from '../interfaces/services';
 
@@ -37,5 +37,10 @@ export class HealthservService {
   updateService(service: Services) {
     const serviceDocRef = doc(this.firestore, `services/${service.id}`);
     return updateDoc(serviceDocRef, { ...service });
+  }
+
+  getServiceByName(searchValue: string): Observable<Services[]> {
+    const partnerQuery = query( collection(this.firestore, 'services'),where('name', '==', searchValue));
+    return collectionData(partnerQuery, { idField: 'id' }) as Observable<Services[]>;
   }
 }
