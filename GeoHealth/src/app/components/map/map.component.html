@@ -1,5 +1,5 @@
 <div class="map-container">
-    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="15">
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="15" [styles]="styleMap">
         <agm-marker *ngFor="let partner of listP" [latitude]="partner.geo.latitude" iconUrl="https://www.sjjb.co.uk/mapicons/png/health_hospital.glow.32.png" [longitude]="partner.geo.longitude" animation='DROP'>
             <agm-info-window>
                 <h6>{{ partner.name }}</h6>
