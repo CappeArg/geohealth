@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, docData, updateDoc, query, where, getDocs } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, docData, updateDoc, query, where } from '@angular/fire/firestore';
 import { Partners } from '../interfaces/partners';
 import { Observable } from 'rxjs';
 
@@ -41,10 +41,26 @@ export class PartnerservService {
     return updateDoc(partnerDocRef, { ...partner });
   }
 
-    getPartnersByName(searchValue: string): Observable<Partners[]> {
-      const partnerQuery = query( collection(this.firestore, 'partners'),where('nameLowercase', '>=', searchValue.toLowerCase()),
-      where('nameLowercase', '<=', searchValue.toLowerCase() + '.*'));
+    // getPartnersByName(searchValue: string): Observable<Partners[]> {
+    //   const partnerQuery = query( collection(this.firestore, 'partners'),where('nameLowercase', '>=', searchValue.toLowerCase()),
+    //   where('nameLowercase', '<=', searchValue.toLowerCase() + '.*'));
+    //   return collectionData(partnerQuery, { idField: 'id' }) as Observable<Partners[]>;
+    // }
+    
+  getPartnerByService(state:string, searchValue: string): Observable<Partners[]> {
+    if(state == ""){
+      const partnerQuery = query( collection(this.firestore, 'partners'),where('service', 'array-contains', searchValue));
       return collectionData(partnerQuery, { idField: 'id' }) as Observable<Partners[]>;
     }
-  
+    else{
+    const partnerQuery = query( collection(this.firestore, 'partners'),where('service', 'array-contains', searchValue), where('state', "==", state));
+    return collectionData(partnerQuery, { idField: 'id' }) as Observable<Partners[]>;
+    }
+  }
+
+  getPartnerByState(state:string){
+    const partnerQuery = query( collection(this.firestore, 'partners'), where('state', "==", state));
+    return collectionData(partnerQuery, { idField: 'id' }) as Observable<Partners[]>;
+      
+  }
 }

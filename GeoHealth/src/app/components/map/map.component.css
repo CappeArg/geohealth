@@ -1,3 +1,46 @@
 agm-map {
     height: 400px;
 }
+
+.map-container {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.agm-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.form-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    background-color: white;
+    padding: 10px;
+}
+
+.form-container form {
+    width: 200px;
+}
+
+.form-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-container select {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.form-container button {
+    width: 100%;
+}

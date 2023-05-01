@@ -21,7 +21,7 @@
                                         <div class="col-md-6 mb-3">
                                             <label for="service" class="form-label">Services</label>
                                             <!-- <input type="text" class="iform-control" id="service" formControlName="service"> -->
-                                            <select class="form-select" id="service" formControlName="service" multiple="multple">
+                                            <select class="form-select" id="service" formControlName="service" multiple="multiple">
                                                 <option *ngFor="let service of listServices">{{service.name}}</option>
                                               </select>
                                             <span *ngIf="form.controls['service'].errors && form.controls['service'].touched" class="form-text text-danger">Please, complete this value</span>
@@ -57,12 +57,13 @@
                                     </div>
                                     <div class="row" formGroupName="geo">
                                         <div class="col-md-6 mb-3">
-                                            <label for="lng" class="form-label">lng</label>
-                                            <input type="text" class="form-control" id="longitude" formControlName="longitude">
+                                            <input type="text" class="form-control" id="longitude" formControlName="longitude" hidden>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="lat" class="form-label">lat</label>
-                                            <input type="text" class="form-control" id="latitude" formControlName="latitude">
+                                            <input type="text" class="form-control" id="latitude" formControlName="latitude" hidden>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <span *ngIf="geolocatedOK" class="text-success"> <b>Geolocated!!!</b> </span>
                                         </div>
                                     </div>
                                     <!-- <span *ngIf="form.controls['lat'].errors && form.controls['lng'].errors && form.controls['email'].untouched" class="form-text text-success">Please, press the button "Geolocate"</span>

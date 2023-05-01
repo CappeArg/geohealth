@@ -39,8 +39,8 @@ export class HealthservService {
     return updateDoc(serviceDocRef, { ...service });
   }
 
-  getServiceByName(searchValue: string): Observable<Services[]> {
-    const partnerQuery = query( collection(this.firestore, 'services'),where('name', '==', searchValue));
-    return collectionData(partnerQuery, { idField: 'id' }) as Observable<Services[]>;
-  }
+  // getServiceByName(searchValue: string): Observable<Services[]> {
+  //   const partnerQuery = query( collection(this.firestore, 'services'),where('name', '==', searchValue));
+  //   return collectionData(partnerQuery, { idField: 'id' }) as Observable<Services[]>;
+  // }
 }

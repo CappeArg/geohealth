@@ -12,8 +12,9 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { LoginComponent } from './components/login/login.component';
 import { CrudServicesComponent } from './components/crud-services/crud-services.component';
 import { RegisterComponent } from './components/register/register.component';
-import { AgmCoreModule } from '@agm/core';
-import { HttpClientModule } from '@angular/common/http';
+  import { AgmCoreModule } from '@agm/core';
+  import { HttpClientModule } from '@angular/common/http';
+
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';

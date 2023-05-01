@@ -18,6 +18,7 @@ export class ModalPartnersComponent implements OnInit {
   partnerEdit:any;
   listServices: Services[] = [];
   address: string = "";
+  geolocatedOK:boolean = false;
   
   form: FormGroup = this.fb.group({
     name        : ['', [Validators.required]],
@@ -117,7 +118,8 @@ return {street, number, city, state}
 
 setLatLn(lat:string, lng:string){
   this.form.get('geo')?.get('latitude')?.patchValue(lat);
-  this.form.get('geo')?.get('longitude')?.patchValue(lng);  
+  this.form.get('geo')?.get('longitude')?.patchValue(lng);
+  
 }
 
 getAddress(){
@@ -128,6 +130,8 @@ getAddress(){
     const lat = info.results[0].geometry.location.lat
     const lng = info.results[0].geometry.location.lng
     this.setLatLn(lat, lng);
+    this.geolocatedOK = true;
+
   }, error => {
     console.log(error);
   });
