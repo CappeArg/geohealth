@@ -3,8 +3,12 @@
         <agm-marker *ngFor="let partner of listP" [latitude]="partner.geo.latitude" iconUrl="https://www.sjjb.co.uk/mapicons/png/health_hospital.glow.32.png" [longitude]="partner.geo.longitude" animation='DROP'>
             <agm-info-window>
                 <h6>{{ partner.name }}</h6>
-                <p>{{ partner.service }}</p>
-                <button class="btn btn-info text-white ">Datos Contacto</button>
+                <p>Services: {{ partner.service }}</p>
+                <p>Address: {{partner.street}} {{partner.number}}</p>
+                <ul>
+                    <li>Phone: {{ partner.phone}}</li>
+                    <li>Email: {{ partner.email}}</li>
+                </ul>
             </agm-info-window>
         </agm-marker>
         <agm-marker [latitude]="lat" [longitude]="lng" animation='BOUNCE' draggable=true>
@@ -15,7 +19,7 @@
         </agm-marker>
     </agm-map>
     <div class="form-container shadow">
-        <form [formGroup]="fService">
+        <form *ngIf="!whereAmI" [formGroup]="fService">
             <div class="mb-3">
                 <label for="service" class="form-label">Search Services</label>
                 <select class="form-select" id="service" formControlName="service">
@@ -23,37 +27,35 @@
             <option *ngFor="let service of listServices" [value]="service.name">{{service.name}}</option>
           </select>
             </div>
-            <button class="btn btn-info text-white" type="submit" (click)="lookService()">Search</button>
+            <button [disabled]="fService.invalid" class="btn btn-info text-white" type="submit" (click)="lookService()">Search</button>
+        </form>
+        <div *ngIf="!whereAmI" class="m-1">
+            <button class="btn btn-danger text-white" type="button" (click)="changeWhereAmI()">I'm not there</button>
+        </div>
+        <form *ngIf="whereAmI" [formGroup]="fUser">
+            <div class="mb-3">
+                <label for="service" class="form-label">Street</label>
+                <input class="form-control" id="street" formControlName="street">
+                <span *ngIf="fUser.controls['street'].errors && fUser.controls['street'].touched" class="form-text text-danger">Please, complete this value</span>
+
+            </div>
+            <div class="mb-3">
+                <label for="number" class="form-label">Number</label>
+                <input class="form-control" id="number" formControlName="number">
+                <span *ngIf="fUser.controls['number'].errors && fUser.controls['number'].touched" class="form-text text-danger">Please, complete this value</span>
+            </div>
+            <div class="mb-3">
+                <label for="city" class="form-label">City</label>
+                <input class="form-control" id="city" formControlName="city">
+                <span *ngIf="fUser.controls['city'].errors && fUser.controls['city'].touched" class="form-text text-danger">Please, complete this value</span>
+            </div>
+            <div class="mb-3">
+                <label for="state" class="form-label">State</label>
+                <input class="form-control" id="state" formControlName="state">
+                <span *ngIf="fUser.controls['state'].errors && fUser.controls['state'].touched" class="form-text text-danger">Please, complete this value</span>
+
+            </div>
+
+            <button [disabled]="fUser.invalid" class="btn btn-info text-white" type="submit" (click)="geoUser()">Where am I?</button>
         </form>
     </div>
-</div>
-
-
-<!-- <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-4 p-4">
-            <form [formGroup]="fService">
-                <div class="mb-3">
-                    <label for="service" class="form-label">Search Services</label>
-                    <select class="form-select" id="service" formControlName="service">
-              <option value="all">All Services</option>
-              <option *ngFor="let service of listServices" [value]="service">{{service.name}}</option>
-            </select>
-                    <span *ngIf="fService.controls['service'].errors && fService.controls['service'].touched" class="form-text text-danger">Please, complete this value</span>
-                </div>
-                <button class="btn btn-primary" type="button" (click)="lookService()">Search</button>
-            </form>
-        </div>
-        <div class="col-md-8 p-4">
-            <agm-map [latitude]="lat" [longitude]="lng">
-                <agm-marker *ngFor="let partner of listP" [latitude]="partner.geo.latitude" [longitude]="partner.geo.longitude">
-                    <agm-info-window>
-                        <h6>{{ partner.name }}</h6>
-                        <p>{{ partner.service }}</p>
-                        <button class="btn btn-info text-white ">Datos Contacto</button>
-                    </agm-info-window>
-                </agm-marker>
-            </agm-map>
-        </div>
-    </div>
-</div> -->

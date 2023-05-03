@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { HealthservService } from 'src/app/services/healthserv.service';
 import { Services } from 'src/app/interfaces/services';
 import { GmapsService } from '../../services/gmaps.service';
+import { Partners } from 'src/app/interfaces/partners';
 
 @Component({
   selector: 'app-map',
@@ -15,11 +16,11 @@ import { GmapsService } from '../../services/gmaps.service';
 export class MapComponent implements OnInit {
 
   mapkey:string = environment.mapKey;
-  direccion = ''; // Propiedad definida con valor predeterminado vacío
-  listP: any = [];
+  whereAmI:boolean = true;
+  listP: Partners[] = [];
   listServices: Services[]=[]
   search:boolean=false
-  state: any = "";
+  state: string = "";
 
   //ESTILO DE MAPA=>
 
@@ -196,9 +197,16 @@ export class MapComponent implements OnInit {
     // state          : ['', [Validators.required]]
   });
 
-  // fPartner: FormGroup = this.fb.group({
-  //   partner        : ['', [Validators.required]],
-  // })
+
+  fUser: FormGroup = this.fb.group({
+    street        : ['', [Validators.required]],
+    number        : ['', [Validators.required]],
+    city          : ['', [Validators.required]],
+    state         : ['', [Validators.required]]
+
+
+
+  })
 
 
   constructor( private healthServ : HealthservService,
@@ -245,17 +253,15 @@ export class MapComponent implements OnInit {
   }
 
 
-
-  
   getLocation() {
    
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition((position) => {
         this.showPosition(position)
-        this.gmaps.getStateFromLatLng(this.lat,this.lng).subscribe(state=>{
-          this.state = state;
-          console.log(this.state)
-        })
+        // this.gmaps.getStateFromLatLng(this.lat,this.lng).subscribe(state=>{
+        //   this.state = state;
+        //   console.log(this.state)
+        // })
       }, null,{enableHighAccuracy: true});
       
     } else {
@@ -307,9 +313,6 @@ export class MapComponent implements OnInit {
     
   }
 
-  
-
-
   changeSearch(){
     if(this.search){
       this.search = false;
@@ -333,6 +336,54 @@ export class MapComponent implements OnInit {
       );
 
     }
+  }
+  geoUser(){
+    Swal.showLoading()
+    const query = this.dataFormGeo();
+    this.getLatLng(query.street, query.number, query.city, query.state).subscribe((info: any) => {
+    console.log(info);
+    const lat = info.results[0].geometry.location.lat
+    const lng = info.results[0].geometry.location.lng
+    this.setLatLn(lat, lng);
+    this.state = query.state
+    this.whereAmI = false;
+    Swal.close();
+  }, error => {
+    Swal.fire(
+    'Error',
+    `Sorry, we couldn't complete your request: ${error}`,
+    'error'
+  );
+  });
+
+  }
+
+  dataFormGeo(){
+    console.log("ok GEO")
+    const street = this.fUser.controls['street'].value;
+    const number = this.fUser.controls['number'].value;
+    const city = this.fUser.controls['city'].value;
+    const state = this.fUser.controls['state'].value;
+
+  
+  return {street, number, city, state}
+    // this.getLatLng("Juan Manuel de Rosas", 957, "Rosario", "Santa Fe")
+  }
+ 
+  getLatLng(street: string, number: number, city: string, state: string){
+    const address = `${street} ${number}, ${city}, ${state}, Argentina`;
+
+    return this.gmaps.getCoordFromAddress(address)
+  }
+
+  setLatLn(lat:number, lng:number){
+    this.lat = lat;
+    this.lng = lng;
+    
+  }
+
+  changeWhereAmI(){
+    this.whereAmI = !this.whereAmI;
   }
   
 
