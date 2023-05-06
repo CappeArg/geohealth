@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ModalServicesComponent implements OnInit {
   serviceEdit:any;
+  collectionName:string = "services";
   
   form: FormGroup = this.fb.group({
     name        : ["Name", [Validators.required, Validators.maxLength(20)]],
@@ -35,7 +36,7 @@ ngOnInit() {
    }
    else{
       this.add = false
-      this.healthService.getService(serviceId).subscribe(data=>{
+      this.healthService.get(serviceId,this.collectionName).subscribe(data=>{
         Swal.showLoading()
         this.serviceEdit = data
         Swal.close()
@@ -61,7 +62,7 @@ ngOnInit() {
   if(this.add){
     console.log(this.form.value)
   try{
-    const response = await this.healthService.addService(this.form.value);  
+    const response = await this.healthService.add(this.form.value, this.collectionName);  
   Swal.fire('', 'The service was add succesfully', 'success');
   setTimeout(() => {
     this.router.navigate(['/services']);
@@ -82,12 +83,12 @@ ngOnInit() {
 }
   else{
     try{
-    const response = await this.healthService.updateService({
+    const response = await this.healthService.update({
       id: this.serviceEdit.id,
       name: this.form.value.name,
       description:this.form.value.description
-    })
-    Swal.fire('', 'The customer was edit succesfully', 'success');
+    }, this.collectionName)
+    Swal.fire('', 'The service was edit succesfully', 'success');
       setTimeout(() => {
         this.router.navigate(['/services']);
       }, 500);

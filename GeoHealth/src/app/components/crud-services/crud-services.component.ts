@@ -11,8 +11,7 @@ import Swal from 'sweetalert2';
 export class CrudServicesComponent implements OnInit {
  
   list:Services[];
-
-  
+  collectionName:string = "services"
 
   constructor( private healthService: HealthservService ) { 
      this.list = []
@@ -20,7 +19,7 @@ export class CrudServicesComponent implements OnInit {
 
   ngOnInit(): void {
     Swal.showLoading()
-    this.healthService.getServices().subscribe(services =>{
+    this.healthService.getAll(this.collectionName).subscribe(services =>{
       this.list = services
       Swal.close()
     },
@@ -47,7 +46,7 @@ export class CrudServicesComponent implements OnInit {
     });
 
     if (result.isConfirmed) {
-      const response= await this.healthService.deleteService(service);
+      const response= await this.healthService.delete(service, this.collectionName);
       console.log(response)
       if (response == undefined) {
         await Swal.fire(

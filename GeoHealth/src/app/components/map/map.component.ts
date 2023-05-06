@@ -21,169 +21,13 @@ export class MapComponent implements OnInit {
   listServices: Services[]=[]
   search:boolean=false
   state: string = "";
+  collectionNameS:string = "services"; 
+  collectionNameP:string = "partners"; 
+
 
   //ESTILO DE MAPA=>
 
-  styleMap: google.maps.MapTypeStyle[]=[
-    {
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#f5f5f5"
-        }
-      ]
-    },
-    {
-      elementType: "labels.icon",
-      stylers: [
-        {
-          visibility: "off"
-        }
-      ]
-    },
-    {
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#616161"
-        }
-      ]
-    },
-    {
-      elementType: "labels.text.stroke",
-      stylers: [
-        {
-          color: "#f5f5f5"
-        }
-      ]
-    },
-    {
-      featureType: "administrative.land_parcel",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#bdbdbd"
-        }
-      ]
-    },
-    {
-      featureType: "poi",
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#eeeeee"
-        }
-      ]
-    },
-    {
-      featureType: "poi",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#757575"
-        }
-      ]
-    },
-    {
-      featureType: "poi.park",
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#e5e5e5"
-        }
-      ]
-    },
-    {
-      featureType: "poi.park",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#9e9e9e"
-        }
-      ]
-    },
-    {
-      featureType: "road",
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#ffffff"
-        }
-      ]
-    },
-    {
-      featureType: "road.arterial",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#757575"
-        }
-      ]
-    },
-    {
-      featureType: "road.highway",
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#dadada"
-        }
-      ]
-    },
-    {
-      featureType: "road.highway",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#616161"
-        }
-      ]
-    },
-    {
-      featureType: "road.local",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#9e9e9e"
-        }
-      ]
-    },
-    {
-      featureType: "transit.line",
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#e5e5e5"
-        }
-      ]
-    },
-    {
-      featureType: "transit.station",
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#eeeeee"
-        }
-      ]
-    },
-    {
-      featureType: "water",
-      elementType: "geometry",
-      stylers: [
-        {
-          color: "#c9c9c9"
-        }
-      ]
-    },
-    {
-      featureType: "water",
-      elementType: "labels.text.fill",
-      stylers: [
-        {
-          color: "#9e9e9e"
-        }
-      ]
-    }
-  ];
+  styleMap: google.maps.MapTypeStyle[]= require('./map-style.json');
 
 //FIN DE ESTILO DE MAPA
 
@@ -194,7 +38,6 @@ export class MapComponent implements OnInit {
   //form Services
     fService: FormGroup = this.fb.group({
     service        : ['', [Validators.required]],
-    // state          : ['', [Validators.required]]
   });
 
 
@@ -218,7 +61,7 @@ export class MapComponent implements OnInit {
 
     Swal.showLoading()
 
-    this.partnerServ.getPartners().subscribe(
+    this.partnerServ.getAll(this.collectionNameP).subscribe(
       partners => {
         this.listP = partners;
         Swal.close();
@@ -234,7 +77,7 @@ export class MapComponent implements OnInit {
     );
     Swal.showLoading()
 
-    this.healthServ.getServices().subscribe(
+    this.healthServ.getAll(this.collectionNameS).subscribe(
       services => {
         this.listServices = services;
         Swal.close();},
@@ -291,7 +134,7 @@ export class MapComponent implements OnInit {
 
     this.partnerServ.getPartnerByService(this.state, service).subscribe(data=>{
       if(service=="all"){
-        this.partnerServ.getPartners().subscribe(
+        this.partnerServ.getAll(this.collectionNameP).subscribe(
           partners => {
             this.listP = partners;
 
@@ -318,7 +161,7 @@ export class MapComponent implements OnInit {
       this.search = false;
       Swal.showLoading()
 
-      this.partnerServ.getPartners().subscribe(
+      this.partnerServ.getAll(this.collectionNameP).subscribe(
         partners => {
           this.listP = partners;
           this.fService.controls['service'].setValue('All Services');

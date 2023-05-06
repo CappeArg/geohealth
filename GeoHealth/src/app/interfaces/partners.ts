@@ -1,7 +1,7 @@
 import { GeoPoint } from "@angular/fire/firestore";
+import { item } from "./item";
 
-export interface Partners {
-    id?:string;
+export interface Partners extends item {
     name:string;
     nameLowercase?:string;
     service: [];

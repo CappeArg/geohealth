@@ -19,6 +19,8 @@ export class ModalPartnersComponent implements OnInit {
   listServices: Services[] = [];
   address: string = "";
   geolocatedOK:boolean = false;
+  collectionNameS:string = 'services'
+  collectionNameP:string = 'partners'
   
   form: FormGroup = this.fb.group({
     name        : ['', [Validators.required]],
@@ -59,7 +61,7 @@ ngOnInit() {
    }
    else{
       this.add = false
-      this.partnerServ.getPartner(partnerId).subscribe(data=>{
+      this.partnerServ.get(partnerId,this.collectionNameP).subscribe(data=>{
         this.partnerEdit = data
         this.form = this.fb.group({
 
@@ -91,7 +93,7 @@ ngOnInit() {
 
   }
 
-  this.healthservservice.getServices().subscribe((services)=>{
+  this.healthservservice.getAll(this.collectionNameS).subscribe((services)=>{
 
     this.listServices = services;
 
@@ -144,7 +146,7 @@ getAddress(){
   if(this.add){
     // console.log(this.form.value)
   try{
-  const response = await this.partnerServ.addPartner(this.form.value);  
+  const response = await this.partnerServ.add(this.form.value, this.collectionNameP);  
   Swal.fire('', 'The partner was add succesfully', 'success');
   setTimeout(() => {
     this.router.navigate(['/partners']);
@@ -166,7 +168,7 @@ getAddress(){
   else{
     try{
 
-    const response = await this.partnerServ.updatePartner({
+    const response = await this.partnerServ.update({
       id         : this.partnerEdit.id,  
       name       : this.form.value.name,
       service    : this.form.value.service, 
@@ -177,7 +179,7 @@ getAddress(){
       geo        : new GeoPoint(this.form.get('geo')?.get('latitude')?.value, this.form.get('geo')?.get('longitude')?.value),
       email      : this.form.value.email,
       phone      : this.form.value.phone,
-      active     : this.form.value.active    })
+      active     : this.form.value.active    }, this.collectionNameP)
     Swal.fire('', 'The partner was edit succesfully', 'success');
       setTimeout(() => {
         this.router.navigate(['/partners']);
