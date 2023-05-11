@@ -121,18 +121,14 @@ export class MapComponent implements OnInit {
     this.lng = position.coords.longitude;
   }
 
-  
-
-  
-
   lookService(){
 
     this.search = true;
 
     let service:string = this.fService.controls['service'].value;
-    console.log(service)
+ 
 
-    this.partnerServ.getPartnerByService(this.state, service).subscribe(data=>{
+    this.partnerServ.getItemByValueInArray(this.state,service,this.collectionNameP,'service','state').subscribe(data=>{
       if(service=="all"){
         this.partnerServ.getAll(this.collectionNameP).subscribe(
           partners => {
@@ -184,7 +180,7 @@ export class MapComponent implements OnInit {
     Swal.showLoading()
     const query = this.dataFormGeo();
     this.getLatLng(query.street, query.number, query.city, query.state).subscribe((info: any) => {
-    console.log(info);
+   
     const lat = info.results[0].geometry.location.lat
     const lng = info.results[0].geometry.location.lng
     this.setLatLn(lat, lng);
@@ -202,7 +198,6 @@ export class MapComponent implements OnInit {
   }
 
   dataFormGeo(){
-    console.log("ok GEO")
     const street = this.fUser.controls['street'].value;
     const number = this.fUser.controls['number'].value;
     const city = this.fUser.controls['city'].value;

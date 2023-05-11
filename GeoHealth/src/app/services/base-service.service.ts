@@ -39,20 +39,21 @@ export class BaseServiceService {
     return updateDoc(ref, { ...i });
   }
 
-  getItemByValue( state:string,  searchValue:string, collectionName:string, collectionField:string, collectionField2:string ): Observable<[]>{
-      
+  getItemByValueInArray( state:string,  searchValue:string, collectionName:string, field:string, field2:string ): Observable<[]>{
       if(state == ""){
-        const ref = query( collection( this.firestore, collectionName ), where(collectionField, 'array-contains', searchValue));
+        const ref = query( collection( this.firestore, collectionName ), where(field, 'array-contains', searchValue));
         return collectionData( ref, { idField: 'id' } ) as Observable<[]>;
       }
       else{
-      const ref = query( collection(this.firestore, collectionName),where(collectionField, 'array-contains', searchValue), where(collectionField2, "==", state));
+      const ref = query( collection(this.firestore, collectionName),where(field, 'array-contains', searchValue), where(field2, "==", state));
       return collectionData(ref, { idField: 'id' }) as Observable<[]>;
       }
-    
-
   }
   
+  getItemByValue(collectionName:string, field:string, searchValue:string){
+    const ref = query( collection(this.firestore, collectionName), where(field, "==", searchValue));
+    return collectionData(ref, { idField: 'id' }) as Observable<[]>;
+  }
 
 }
 
