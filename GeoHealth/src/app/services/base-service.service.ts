@@ -45,7 +45,7 @@ export class BaseServiceService {
         return collectionData( ref, { idField: 'id' } ) as Observable<[]>;
       }
       else{
-      const ref = query( collection(this.firestore, collectionName),where(field, 'array-contains', searchValue), where(field2, "==", state));
+      const ref = query( collection(this.firestore, collectionName),where(field, 'array-contains', searchValue), where(field2, "==", state.toUpperCase()));
       return collectionData(ref, { idField: 'id' }) as Observable<[]>;
       }
   }

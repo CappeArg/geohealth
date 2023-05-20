@@ -8,6 +8,8 @@ import { Services } from '../../interfaces/services';
 import { HealthservService } from '../../services/healthserv.service';
 import { Observable, async } from 'rxjs';
 import { GeoPoint } from '@angular/fire/firestore';
+import { deburr } from 'lodash';
+
 
 @Component({
   selector: 'app-modal-partners',
@@ -143,10 +145,15 @@ getAddress(){
 
  async onSubmit(){
 
+  const stateValue = deburr( this.form.value.state.toUpperCase())
+
   if(this.add){
     // console.log(this.form.value)
   try{
-  const response = await this.partnerServ.add(this.form.value, this.collectionNameP);  
+    const response = await this.partnerServ.add(
+      { ...this.form.value, state: stateValue },
+      this.collectionNameP
+    ); 
   Swal.fire('', 'The partner was add succesfully', 'success');
   setTimeout(() => {
     this.router.navigate(['/partners']);
@@ -175,7 +182,7 @@ getAddress(){
       street     : this.form.value.street,
       number     : this.form.value.number,
       city       : this.form.value.city,
-      state      : this.form.value.state,
+      state      : stateValue,
       geo        : new GeoPoint(this.form.get('geo')?.get('latitude')?.value, this.form.get('geo')?.get('longitude')?.value),
       email      : this.form.value.email,
       phone      : this.form.value.phone,

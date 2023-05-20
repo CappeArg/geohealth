@@ -124,6 +124,7 @@ export class MapComponent implements OnInit {
   lookService(){
 
     this.search = true;
+    console.log(this.state)
 
     let service:string = this.fService.controls['service'].value;
  
@@ -184,7 +185,7 @@ export class MapComponent implements OnInit {
     const lat = info.results[0].geometry.location.lat
     const lng = info.results[0].geometry.location.lng
     this.setLatLn(lat, lng);
-    this.state = query.state
+    this.state = query.state.toUpperCase();
     this.whereAmI = false;
     Swal.close();
   }, error => {
