@@ -1,0 +1,6 @@
+{
+    "projects": {
+        "default": "geohealthdev",
+        "project1": "geohealthprod"
+    }
+}
