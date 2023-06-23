@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 export class CrudPartnersComponent implements OnInit {
 
   list:Partners[];
+  collectionName:string = "partners"
 
   constructor(private partnerServ: PartnerservService) {
     this.list = []
@@ -18,8 +19,17 @@ export class CrudPartnersComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.partnerServ.getPartners().subscribe(partners =>{
+    Swal.showLoading()
+    this.partnerServ.getAll(this.collectionName).subscribe(partners =>{
       this.list = partners
+      Swal.close();
+    },
+    error => {
+      Swal.fire(
+        'Error',
+        "Sorry, we couldn't complete your request",
+        'error'
+      );
     });
   }
 
@@ -37,7 +47,7 @@ export class CrudPartnersComponent implements OnInit {
     });
 
     if (result.isConfirmed) {
-      const response= await this.partnerServ.deletePartner(partner);
+      const response= await this.partnerServ.delete(partner,this.collectionName);
       console.log(response)
       if (response == undefined) {
         await Swal.fire(

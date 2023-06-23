@@ -1,4 +1,4 @@
-<div id="addPartnerModal" class="m-4">
+<div id="addPartnerModal" class="m-4 animate__animated animate__fadeIn animate__faster">
     <div class="container">
         <div class="card mask-custom border shadow-lg">
             <div class="row justify-content-center">
@@ -20,15 +20,17 @@
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="service" class="form-label">Services</label>
-                                            <!-- <input type="text" class="form-control" id="service" formControlName="service"> -->
-                                            <select class="form-select" id="service" formControlName="service" selectmode="false">
+                                            <!-- <input type="text" class="iform-control" id="service" formControlName="service"> -->
+                                            <select class="form-select" id="service" formControlName="service" multiple="multiple">
                                                 <option *ngFor="let service of listServices">{{service.name}}</option>
                                               </select>
+                                            <span *ngIf="form.controls['service'].errors && form.controls['service'].touched" class="form-text text-danger">Please, complete this value</span>
+
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
-                                            <label for="street" class="form-labeR7fuHSd92gMI9XnBv6kXl">Street</label>
+                                            <label for="street" class="form-label">Street</label>
                                             <input type="text" class="form-control" id="street" formControlName="street">
                                             <span *ngIf="form.controls['street'].errors && form.controls['street'].touched" class="form-text text-danger">Please, complete this value</span>
 
@@ -53,18 +55,19 @@
                                             <span *ngIf="form.controls['state'].errors && form.controls['state'].touched" class="form-text text-danger">Please, complete this value</span>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" formGroupName="geo">
                                         <div class="col-md-6 mb-3">
-                                            <label for="lng" class="form-label">lng</label>
-                                            <input type="text" class="form-control" id="lng" formControlName="lng">
+                                            <input type="text" class="form-control" id="longitude" formControlName="longitude" hidden>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="lat" class="form-label">lat</label>
-                                            <input type="text" class="form-control" id="lat" formControlName="lat">
+                                            <input type="text" class="form-control" id="latitude" formControlName="latitude" hidden>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <span *ngIf="geolocatedOK" class="text-success"> <b>Geolocated!!!</b> </span>
                                         </div>
                                     </div>
-                                    <span *ngIf="form.controls['lat'].errors && form.controls['lng'].errors" class="form-text text-danger">Please, press the button "Geolocate"</span>
-
+                                    <!-- <span *ngIf="form.controls['lat'].errors && form.controls['lng'].errors && form.controls['email'].untouched" class="form-text text-success">Please, press the button "Geolocate"</span>
+                                    <span *ngIf="form.controls['lat'].errors && form.controls['lng'].errors && form.controls['email'].touched" class="form-text text-danger">Please, press the button "Geolocate"</span> -->
                                     <div class="row">
                                         <input (click)="getAddress()" type="button" class="btn btn-info text-white m-1" value="Geolocate">
                                     </div>
@@ -83,7 +86,7 @@
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="active" class="form-label">Active</label>
-                                            <input type="checkbox" class="form-check-input" id="active" formControlName="active">
+                                            <input type="checkbox" class="form-check-input m-1" id="active" formControlName="active">
                                         </div>
                                     </div>
 

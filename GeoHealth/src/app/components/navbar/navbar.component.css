@@ -1,7 +1,20 @@
-@media (max-width: 576px) {
+/* @media (max-width: 576px) {
     .navbar-nav .nav-link {
         width: 100%;
     }
+} */
+
+.navbar-nav li a {
+    color: #444;
+    /* color de fuente predeterminado */
+    transition: all 0.2s ease-in-out;
+    /* transición suave de animación */
+    font-weight: 400;
+}
+
+.navbar-nav li a:hover {
+    color: #00aeff;
+    /* color de fuente al hacer hover */
 }
 
 .profile-image {

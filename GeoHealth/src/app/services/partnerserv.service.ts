@@ -1,40 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, docData, updateDoc } from '@angular/fire/firestore';
+import { collection, collectionData, query, where } from '@angular/fire/firestore';
 import { Partners } from '../interfaces/partners';
 import { Observable } from 'rxjs';
+import { BaseServiceService } from './base-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PartnerservService {
-
-  constructor( private firestore:Firestore ) { }
-
-  addPartner(partner:Partners){
-    const partnerRef = collection(this.firestore,'partners')
-
-    return addDoc(partnerRef, partner)
-  }
-
-  getPartners():Observable<Partners[]>{
-
-    const serviceRef = collection(this.firestore,'partners');
-    return collectionData(serviceRef, {idField:'id'}) as Observable<Partners[]> 
-  }
+export class PartnerservService extends BaseServiceService {
 
 
-  deletePartner(partner:Partners){
-    const serviceDocRef = doc(this.firestore,`partners/${partner.id}`);
-    return deleteDoc(serviceDocRef)
-  }
-
-  getPartner(id: string) {
-    const partnerDocRef = doc(this.firestore, `partners/${id}`);
-    return docData(partnerDocRef, { idField: 'id' });
-  }
-
-  updatePartner(partner: Partners) {
-    const partnerDocRef = doc(this.firestore, `partners/${partner.id}`);
-    return updateDoc(partnerDocRef, { ...partner });
+  getPartnerByState(state:string){
+    const partnerQuery = query( collection(this.firestore, 'partners'), where('state', "==", state));
+    return collectionData(partnerQuery, { idField: 'id' }) as Observable<Partners[]>;
+      
   }
 }

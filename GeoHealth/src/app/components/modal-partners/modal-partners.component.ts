@@ -7,6 +7,9 @@ import Swal from 'sweetalert2';
 import { Services } from '../../interfaces/services';
 import { HealthservService } from '../../services/healthserv.service';
 import { Observable, async } from 'rxjs';
+import { GeoPoint } from '@angular/fire/firestore';
+import { deburr } from 'lodash';
+
 
 @Component({
   selector: 'app-modal-partners',
@@ -17,6 +20,9 @@ export class ModalPartnersComponent implements OnInit {
   partnerEdit:any;
   listServices: Services[] = [];
   address: string = "";
+  geolocatedOK:boolean = false;
+  collectionNameS:string = 'services'
+  collectionNameP:string = 'partners'
   
   form: FormGroup = this.fb.group({
     name        : ['', [Validators.required]],
@@ -25,11 +31,14 @@ export class ModalPartnersComponent implements OnInit {
     number      : ['',[Validators.required]],
     city        : ['',[Validators.required]],
     state       : ['',[Validators.required]],
-    lat         : [{value:'', disabled:true, readonly:true},[Validators.required]],
-    lng         : [{value:'', disabled:true, readonly:true},[Validators.required]],
+    geo         : this.fb.group({
+      latitude  : ['',[Validators.required]],
+      longitude : ['',[Validators.required]],
+
+    }),
     email       : ['',[Validators.email, Validators.required]],
     phone       : ['',[Validators.required]],
-    active      : ['',[]]
+    active      : ['true',[]],
   })
 
   add:boolean = false;
@@ -54,7 +63,7 @@ ngOnInit() {
    }
    else{
       this.add = false
-      this.partnerServ.getPartner(partnerId).subscribe(data=>{
+      this.partnerServ.get(partnerId,this.collectionNameP).subscribe(data=>{
         this.partnerEdit = data
         this.form = this.fb.group({
 
@@ -65,21 +74,38 @@ ngOnInit() {
           number      : [this.partnerEdit.number],
           city        : [this.partnerEdit.city],
           state       : [this.partnerEdit.state],
-          lat         : [this.partnerEdit.lat],
-          lng         : [this.partnerEdit.lng],
+          geo         : this.fb.group({
+            latitude: [this.partnerEdit.geo.lat],
+            longitude: [this.partnerEdit.geo.lng]
+          }),
           email       : [this.partnerEdit.email],
           phone       : [this.partnerEdit.phone],
           active      : [this.partnerEdit.active]
 
+
         })
+      },
+      error => {
+        Swal.fire(
+          'Error',
+          "Sorry, we couldn't complete your request",
+          'error'
+        );
       })
 
   }
 
-  this.healthservservice.getServices().subscribe((services)=>{
+  this.healthservservice.getAll(this.collectionNameS).subscribe((services)=>{
 
     this.listServices = services;
 
+  },
+  error => {
+    Swal.fire(
+      'Error',
+      "Sorry, we couldn't complete your request",
+      'error'
+    );
   })
 }
 
@@ -95,10 +121,9 @@ return {street, number, city, state}
 }
 
 setLatLn(lat:string, lng:string){
-  this.form.patchValue({
-    lat : lat,
-    lng : lng
-  })
+  this.form.get('geo')?.get('latitude')?.patchValue(lat);
+  this.form.get('geo')?.get('longitude')?.patchValue(lng);
+  
 }
 
 getAddress(){
@@ -109,6 +134,8 @@ getAddress(){
     const lat = info.results[0].geometry.location.lat
     const lng = info.results[0].geometry.location.lng
     this.setLatLn(lat, lng);
+    this.geolocatedOK = true;
+
   }, error => {
     console.log(error);
   });
@@ -118,10 +145,15 @@ getAddress(){
 
  async onSubmit(){
 
+  const stateValue = deburr( this.form.value.state.toUpperCase())
+
   if(this.add){
-    console.log(this.form.value)
+    // console.log(this.form.value)
   try{
-  const response = await this.partnerServ.addPartner(this.form.value);  
+    const response = await this.partnerServ.add(
+      { ...this.form.value, state: stateValue },
+      this.collectionNameP
+    ); 
   Swal.fire('', 'The partner was add succesfully', 'success');
   setTimeout(() => {
     this.router.navigate(['/partners']);
@@ -132,33 +164,36 @@ getAddress(){
   if (error.status === 400) {
   Swal.fire('', "the server wasn't process the request", 'error');
   } else {
-  console.error(error);
-  }
+      Swal.fire(
+        'Error',
+        "Sorry, we couldn't complete your request",
+        'error'
+      );
+    }
   }
 }
   else{
     try{
 
-    const response = await this.partnerServ.updatePartner({
-      id         : this.partnerEdit.id,
+    const response = await this.partnerServ.update({
+      id         : this.partnerEdit.id,  
       name       : this.form.value.name,
       service    : this.form.value.service, 
       street     : this.form.value.street,
       number     : this.form.value.number,
       city       : this.form.value.city,
-      state      : this.form.value.state,
-      lat        : this.form.value.lat,
-      lng        : this.form.value.lng,
+      state      : stateValue,
+      geo        : new GeoPoint(this.form.get('geo')?.get('latitude')?.value, this.form.get('geo')?.get('longitude')?.value),
       email      : this.form.value.email,
       phone      : this.form.value.phone,
-      active     : this.form.value.active    })
+      active     : this.form.value.active    }, this.collectionNameP)
     Swal.fire('', 'The partner was edit succesfully', 'success');
       setTimeout(() => {
         this.router.navigate(['/partners']);
       }, 500);
     } catch (error) {
       Swal.fire('', "the server wasn't process the request", 'error');
-      console.error(error)
+      // console.error(error)
     }
     this.router.navigate(['/partners']);
   }

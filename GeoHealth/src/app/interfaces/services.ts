@@ -1,5 +1,6 @@
-export interface Services {
-id?:string;
+import { item } from "./item";
+
+export interface Services extends item{
 name:string;
 description:string;
 
